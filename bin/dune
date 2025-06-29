@@ -1,0 +1,6 @@
+(executable
+ (public_name flagen)
+ (name main)
+ (libraries flagen ppx_deriving.show)
+(preprocess (pps ppx_deriving.show))
+ )
