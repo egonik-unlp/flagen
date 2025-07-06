@@ -21,7 +21,7 @@ let step_simultaneous (universe : universe_parallel) =
       : xy_coords array);
 
   Array.iter2
-    (fun (x, y) map -> filter_function (x, y) map)
+    (fun (x, y) map -> filter_function (x, y) map paraboloide_hiperbolico)
     universe.walkers universe.maps
 
 let run_parallel_simulation (simulation : universe_parallel) =

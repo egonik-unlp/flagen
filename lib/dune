@@ -1,2 +1,5 @@
 (library
- (name flagen))
+ (name flagen)
+ (libraries owl core)
+ )
+

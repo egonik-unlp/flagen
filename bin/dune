@@ -1,6 +1,6 @@
 (executable
  (public_name flagen)
  (name main)
- (libraries flagen ppx_deriving.show)
+ (libraries flagen ppx_deriving.show unix bigarray owl)
 (preprocess (pps ppx_deriving.show))
  )
