@@ -4,9 +4,13 @@ type dimensions = { width : int; height : int } [@@deriving show]
 type map_wrapper = { content : Mat.mat } [@@deriving show]
 type xy_coords = int * int [@@deriving show]
 
+let int_in_range ~min ~max =
+  if max < min then invalid_arg "int_in_range: max < min"
+  else Random.int (max - min + 1) + min
+
 let generate_new_coordinates (coordinates : dimensions) ((x, y) : xy_coords) =
   let rec gen max old =
-    let candidate = old + Random.int_in_range ~min:(-1) ~max:1 in
+    let candidate = old + int_in_range ~min:(-1) ~max:1 in
     match candidate with
     | candidate when candidate >= max || candidate < 0 -> gen max candidate
     | _ -> candidate
