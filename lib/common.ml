@@ -2,9 +2,13 @@ type dimensions = { width : int; height : int } [@@deriving show]
 type map_wrapper = { content : int array array } [@@deriving show]
 type xy_coords = int * int [@@deriving show]
 
+let int_in_range ~min ~max =
+  if max < min then invalid_arg "int_in_range: max < min"
+  else Random.int (max - min + 1) + min
+
 let generate_new_coordinates (coordinates : dimensions) ((x, y) : xy_coords) =
   let rec gen max old =
-    let candidate = old + Random.int_in_range ~min:(-1) ~max:1 in
+    let candidate = old + int_in_range ~min:(-1) ~max:1 in
     match candidate with
     | candidate when candidate >= max || candidate < 0 -> gen max candidate
     | _ -> candidate
@@ -17,7 +21,7 @@ let create_map dims =
   { content }
 
 let create_walkers n_walkers dims =
-  let gen max = Random.int_in_range ~min:0 ~max in
+  let gen max = int_in_range ~min:0 ~max in
   Array.init n_walkers (fun _ -> (gen dims.width, gen dims.height))
 
 let compute_integral_of_map map_wrapper =
