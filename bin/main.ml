@@ -17,7 +17,7 @@ let () =
       simulation.maps;
     (* let base = Array.make_matrix universe_dims.width universe_dims.height 0 in *)
     let single_image = compute_final_image simulation in
-    save_to_csv "matrices/acumulado.npy" single_image
+    save_to_csv "matrices/otro_nombre.npy" single_image
   with ex ->
     Printf.eprintf "Exception: %s\n" (Printexc.to_string ex);
     Printf.eprintf "Backtrace: %s\n" (Printexc.get_backtrace ())

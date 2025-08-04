@@ -13,16 +13,6 @@ let genesis_parallel dims n_walkers steps : universe_parallel =
   let maps = Array.init n_walkers (fun _ -> create_map dims) in
   let walkers = create_walkers n_walkers dims in
   { dims; walkers; maps; steps }
-(* let step_simultaneous (universe : universe_parallel) = *)
-(*   universe.walkers <- *)
-(*     (Array.map *)
-(*        (fun (x, y) -> generate_new_coordinates universe.dims (x, y)) *)
-(*        universe.walkers *)
-(*       : xy_coords array); *)
-(**)
-(*   Array.iter2 *)
-(*     (fun (x, y) map -> filter_function (x, y) map paraboloide_hiperbolico) *)
-(*     universe.walkers universe.maps *)
 
 let step_simultaneous_in (universe : universe_parallel) =
   let walkers = universe.walkers in
@@ -82,15 +72,6 @@ let compute_final_image universe : Mat.mat =
 let run_parallel_simulation (simulation : universe_parallel) =
   let rec aux step_n =
     match step_n with
-    (*
-    | progress when progress <= simulation.steps && progress mod 100000 == 0 ->
-        step_simultaneous_in simulation;
-        print_endline "computing integral";
-        (* let integral = parallell_integral simulation in *)
-        Printf.printf "step = %d" progress;
-        (* Printf.printf "Step = %d Integral value = %d\n" progress integral; *)
-        aux (step_n + 1)
-    *)
     | progress when progress <= simulation.steps ->
         step_simultaneous_in simulation;
         aux (step_n + 1)

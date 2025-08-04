@@ -11,12 +11,7 @@ let generate_new_coordinates (coordinates : dimensions) ((x, y) : xy_coords) =
     | candidate when candidate >= max || candidate < 0 -> gen max candidate
     | _ -> candidate
   in
-  let final_candidates = (gen coordinates.width x, gen coordinates.height y) in
-  final_candidates
-
-(* let create_map dims = *)
-(*   let content = Array.make_matrix dims.width dims.height 0 in *)
-(*   { content } *)
+  (gen coordinates.width x, gen coordinates.height y)
 
 let create_map dims = { content = Mat.zeros dims.width dims.height }
 let compute_integral map = Mat.sum' map.content
@@ -35,11 +30,6 @@ let paraboloide_hiperbolico coord : float =
   let xx, yy = Mat.(get coord 0 0, get coord 1 0) in
   Float.sub (Float.div xx 10.0 ** 2.0) (Float.div yy 40.0 ** 2.0)
 
-(**)
-(* let filter_function ((x, y) : xy_coords) map func = *)
-(*   if map.content.(x).(y) <= func x y then *)
-(*     map.content.(x).(y) <- map.content.(x).(y) + 100000 *)
-
 let filter_function (coord : Mat.mat) map func =
   let x, y =
     Mat.(get coord 0 0 |> int_of_float, get coord 1 0 |> int_of_float)
@@ -47,17 +37,6 @@ let filter_function (coord : Mat.mat) map func =
   let vxy = Mat.get map.content x y in
   let nvxy = if vxy <= func coord then vxy +. 100.0 else vxy in
   Mat.set map.content x y nvxy
-
-(* let create_csv_from_matrix (filename : string) (matrix : map_wrapper) = *)
-(*   let oc = open_out filename in *)
-(*   Array.iter *)
-(*     (fun row -> *)
-(*       let line = *)
-(*         row |> Array.map string_of_int |> Array.to_list |> String.concat "," *)
-(*       in *)
-(*       output_string oc (line ^ "\n")) *)
-(*     matrix.content; *)
-(*   close_out oc *)
 
 let save_to_csv (filename : string) (matrix : Mat.mat) =
   Mat.save_npy ~out:filename matrix
